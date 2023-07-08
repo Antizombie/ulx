@@ -135,7 +135,7 @@ function ulx.votemap( calling_ply, map )
 	local minvotes = tonumber( GetConVarString( "ulx_votemapMinvotes" ) ) or 0
 	local successratio = tonumber( GetConVarString( "ulx_votemapSuccessratio" ) ) or 0.5
 
-	local votes_needed = math.ceil( math.max( minvotes, successratio * #player.GetAll() ) ) -- Round up whatever the largest is.
+	local votes_needed = math.ceil( math.max( minvotes, successratio * #player.GetHumans() ) ) -- Round up whatever the largest is.
 
 	-- TODO, color?
 	ULib.tsay( _, string.format( "%s voted for %s (%i/%i). Say \"!votemap %i\" to vote for this map too.", calling_ply:Nick(), ulx.votemaps[ mapid ], mapvotes[ mapid ], votes_needed, mapid ), true )
@@ -145,7 +145,7 @@ function ulx.votemap( calling_ply, map )
 		local vetotime = tonumber( GetConVarString( "ulx_votemapVetotime" ) ) or 30
 
 		local admins = {}
-		local players = player.GetAll()
+		local players = player.GetHumans()
 		for _, player in ipairs( players ) do
 			if player:IsConnected() then
 				if ULib.ucl.query( player, "ulx veto" ) then
